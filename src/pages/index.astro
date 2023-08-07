@@ -7,9 +7,32 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>Astro HTMX AI</title>
 	</head>
-	<body>
-		<h1>Astro</h1>
+	<body class="max-w-4xl mx-auto text-3xl pt-5">
+		<form 
+			class="flex gap-2 items-center"
+		>
+			<div 
+				class="whitespace-nowrap"
+			>
+				Funny Story About a
+			</div>
+			<input 
+				type="text" 
+				name="prompt"
+				class="border border-gray-400 p-2 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+			/>
+			<button 
+				type="submit" 
+				class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full text-xl"
+			>
+				Submit
+			</button>
+		</form>
+		<div class="p-5 border-2 border-gray-400 rounded-2xl mt-5">
+			<!-- Take the output of the server and put it into the result div -->
+			<div id="result"></div>
+		</div>
 	</body>
 </html>
