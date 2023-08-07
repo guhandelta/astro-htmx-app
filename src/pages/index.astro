@@ -8,9 +8,17 @@
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro HTMX AI</title>
+		<!-- is:inline -> instructing Astro not to bundle this script -->
+		<script src="/htmx.js" is:inline></script>
 	</head>
 	<body class="max-w-4xl mx-auto text-3xl pt-5">
+		<!-- The form element would make an AJAX POST to the /prompt endpoint, which will return a HTML. The HTML from the response will be taken and be put inside the result div. 
+			hx-post - instructs HTMX to make a AJAX Form POST call instead of a usual Form POST 
+			hx-target - instructs HTMX where to put the output of the AJAX POST call made to /prompt
+		-->
 		<form 
+			hx-post="/prompt" 
+			hx-target="#result" 
 			class="flex gap-2 items-center"
 		>
 			<div 
