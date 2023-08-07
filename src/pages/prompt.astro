@@ -1,8 +1,26 @@
 ---
-const formData = await Astro.request.formData();
-const prompt = formData.get("prompt").toString();
+let prompt="";
+if(Astro.request.method === "POST"){
+    const formData = await Astro.request.formData();
+    const prompt = formData.get("prompt").toString();
+}
 ---
 
-<div class="italic">
-    <span>{prompt}</span>
+<!-- 
+    The initial page will POST to /prompt, which will return a HTML, with HTMX directives. These HTMX directives will later instruct the page to re-request /prompt after 50ms.
+
+    POST will start the request, hx-get will go around and cycle around on the request
+    hx-target => to target the resule to the appropriate place on the UI
+    hx-trigger => to trigger the request/re-request after a certain amt of time(50ms in this case)
+    
+    This will create and endless cycle of requests and page refresh.
+ -->
+
+<div 
+    hx-get="/prompt" 
+    hx-target="#result"
+    hx-trigger="load delay:50ms"
+    class="italic"
+>
+    <span>{prompt} - {Date.now().toString()}</span>
 </div>
