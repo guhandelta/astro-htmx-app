@@ -1,9 +1,20 @@
 ---
-let prompt="";
+import { getRequest, startRequest } from '../request' 
+
+let requestId ="";
 if(Astro.request.method === "POST"){
     const formData = await Astro.request.formData();
-    const prompt = formData.get("prompt").toString();
+    let prompt = formData.get("prompt").toString();
+    // Get the requestId in the POST at the start of the  request
+    requestId = await startRequest(prompt);
+    
+} else {
+    // If a POST was not received, get the requestId from the search params, as it is provided in the hx-get
+    requestId = Astro.url.searchParams.get("requestId");
+    
 }
+// As the requestId is available, now the value of the request can be fetched
+const request = getRequest(requestId);
 ---
 
 <!-- 
@@ -14,13 +25,16 @@ if(Astro.request.method === "POST"){
     hx-trigger => to trigger the request/re-request after a certain amt of time(50ms in this case)
     
     This will create and endless cycle of requests and page refresh.
+
+    Now instead of loading every 50ms, just do it onlly when pending is true
  -->
 
 <div 
-    hx-get="/prompt" 
+    hx-get={`/prompt?requestId=${requestId}`} 
     hx-target="#result"
-    hx-trigger="load delay:50ms"
+    hx-trigger={request.pending ? "load delay:50ms" : ""} 
     class="italic"
 >
-    <span>{prompt} - {Date.now().toString()}</span>
+    <span>{request.completion}</span>
+    <span>{request.pending}</span>
 </div>

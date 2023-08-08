@@ -14,14 +14,14 @@ export const getRequest = (requestId) => {
 // A fn() that is called when calling /prompt, will give back the request
 export const startRequest = async (prompt:string) => {
     const requestId = Math.random().toString(36).substring(2,15);
-    // Craeting an entry into the requests lookup, that has the requestId, and has the completion and pending(which is true as the request is still pending and not complete, yet)
+    // Creating an entry into the requests lookup, that has the requestId, and has the completion and pending(which is true as the request is still pending and not complete, yet)
     requests[requestId] = {
         completion: "",
         pending: true
     };
 
-    // A timer to add prompt on to itself for a bunch of times, and finally finishes until it has created a string that is big enough
-    const interval = setTimeout(() =>{
+    // A timer to add prompt on to itself for a bunch of times, and finally finishes until it has created a string that is big enough. This is just to simulate how the response from OpenAI would be streamed
+    const interval = setInterval(() =>{
         // Add a prompt to the completion string, every 100ms, that alraedy has a bunch of prompts alrady added on to it. Then after it reaches 100 chars, it completes, by assigning pending as false, and clear the interval
         requests[requestId].completion += prompt + " ";
         if(requests[requestId].completion.length > 100){
