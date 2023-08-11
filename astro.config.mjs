@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
-
 import tailwind from "@astrojs/tailwind";
+// To deploy the Astro app on Vercel
+import vercel from "@astrojs/vercel/serverless";
 
 /*
     Until adding this config[output: 'server'], Astro runs in Static mode, and throws 
@@ -9,8 +10,10 @@ import tailwind from "@astrojs/tailwind";
     This config is to convert Astro into a SSR server,to handle each req dynamically, which is kindof what HTMX is used to dealing with, like send FormData and get values back, dynamically. 
 */
 
+
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
-  integrations: [tailwind()]
+  integrations: [tailwind()],
+  adapter: vercel()
 });
